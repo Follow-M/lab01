@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <conio.h>
 using namespace std;
 
 struct NODE
@@ -151,51 +152,41 @@ int main()
 	float num;
 
 	cout << "Reverse Polish Notation Calculator: " << endl;
-	cout << "Input 0 to terminate: " << endl;
-	cout << "Input expression (input 0 to terminate the program)\n";
+	cout << "Input expression:\n";
 
 
 	while (input != "0")
 	{
-		//Terminate program when 0 is entered by user
-		while (true)
-		{
-
-			// get input
+	
+			// отримати дані
 			cin >> input;
 
-			// check for being numeric value
+			// перевірити дані (чи це числа)
 
 			if (istringstream(input) >> num)
 			{
-				//use push function
+				//функція push
 				calculator.push(num);
 			}
 
-			// check for operator
+			// перевірити дані (чи це оператори)
 			else if (isOperator(input))
 			{
 				performOperation(input, calculator);
 			}
-
-			// If user enters 0 on a line followed by a new line, the program exits     ????????????
-			else if (input == "0\n")
-			{
-				return -1;
-			}
-
-
+			
 		}
-	}
+	_getch(); 
+	return 0;
 }
 
 bool isOperator(const string& input)
 {
 	static const string operators = "-+*/";
-	if (input.length() == 1) // right size to be an operator.
+	if (input.length() == 1) // належний розмір, щоб бути оператором
 	{
 		return operators.find_first_of(input[0]) != string::npos;
-		// look in the operator string for the first (and only) character in input
+		
 	}
 	return false;
 }
@@ -204,28 +195,7 @@ bool isOperator(const string& input)
 
 int performOperation(const string& input, RPN& calculator)
 {
-	//double firstOperand = 0;
-	//double secondOperand = 0;
-	//double result;
-
-
-
-	/*
-	if( calculator.size() > 2 )                      //Error check gives a false error for last input ???
-	{
-	cout << "Error: too many operands" << endl;
-	return 1;
-	}
-
-	//Error chceck for too many operators           ////STILL PRINT OUTPUT???
-	if( calculator.size() < 2 )
-	{
-	cout << "Error: too many operators" << endl;
-	return 1;
-	}
-	*/
-
-
+	
 	switch (input[0])
 	{
 	case '+': calculator.add();
@@ -238,26 +208,8 @@ int performOperation(const string& input, RPN& calculator)
 		calculator.display();
 		break;
 	case '/':  calculator.divide();
-
-		//if (firstOperand / 0) 
-		//{
-		//	cout << "Error: Divide by 0.\n";
-		//}
 		calculator.display();
 		break;
 	}
-	/*
-	if (secondOperand == 0)
-	{ // moved this test to here because it's the only place it matters.
-	cout << "Error: Division by 0.\n";
-	return -1;
-	}
-	*/
-
-
-
-
-
 	return 0;
-
 }
